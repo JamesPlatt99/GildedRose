@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 
 namespace csharp
 {
     public class GildedRose
     {
-        IList<Item> Items;
+        private IList<Item> Items;
+
         public GildedRose(IList<Item> Items)
         {
             this.Items = Items;
@@ -35,27 +35,38 @@ namespace csharp
             switch (item.Name)
             {
                 case "Aged Brie":
-                    item.Quality = Math.Min(item.Quality + 1,50);
-                    if (item.SellIn < 0)
-                        item.Quality = Math.Min(item.Quality + 1,50);
-                    break;
+                    item.Quality = GetAgedBrieQuality(item);
+                    return item;
+
                 case "Backstage passes to a TAFKAL80ETC concert":
                     item.Quality = GetPassQuality(item);
-                    break;
+                    return item;
+
                 case "Sulfuras, Hand of Ragnaros":
-                    break;
+                    return item;
+
                 case "Conjured Mana Cake":
-                    item.Quality = Math.Max(0, item.Quality - 2);
-                    if (item.SellIn <= 0)
-                        item.Quality = Math.Max(0, item.Quality - 2);
-                    break;
-                default:
-                        item.Quality = Math.Max(0, item.Quality - 1);
-                        if (item.SellIn < 0)
-                            item.Quality = Math.Max(0, item.Quality - 1);
+                    item.Quality = GetDefaultQuality(item);
                     break;
             }
+            item.Quality = GetDefaultQuality(item);
             return item;
+        }
+
+        private int GetDefaultQuality(Item item)
+        {
+            item.Quality = Math.Max(0, item.Quality - 1);
+            if (item.SellIn < 0)
+                item.Quality = Math.Max(0, item.Quality - 1);
+            return item.Quality;
+        }
+
+        private int GetAgedBrieQuality(Item item)
+        {
+            item.Quality = Math.Min(item.Quality + 1, 50);
+            if (item.SellIn < 0)
+                item.Quality = Math.Min(item.Quality + 1, 50);
+            return item.Quality;
         }
 
         private int GetPassQuality(Item pass)
@@ -67,9 +78,7 @@ namespace csharp
                 quality++;
             if (pass.SellIn < 5)
                 quality++;
-            return Math.Min(quality,50);
+            return Math.Min(quality, 50);
         }
-
-        
     }
 }
