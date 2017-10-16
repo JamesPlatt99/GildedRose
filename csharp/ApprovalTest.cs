@@ -4,6 +4,7 @@ using NUnit.Framework;
 using System;
 using System.IO;
 using System.Text;
+using ApprovalUtilities.Utilities;
 
 namespace csharp
 {
@@ -20,7 +21,18 @@ namespace csharp
 
             Program.Main(new string[] { });
             String output = fakeoutput.ToString();
-            Approvals.Verify(output);
+
+            StreamReader file = new StreamReader(@"C:\LocalProjects\Training\GildedRose-Kata\GildedRose-Refactoring-Kata\csharp\bin\Debug\valid.txt");
+            string valid = "";
+            string line;
+            while ((line = file.ReadLine()) != null)
+            {
+                valid += line;
+            }
+            file.Close();
+            output = output.Replace(Environment.NewLine, "");
+            Assert.AreEqual(valid,output);
+            
         }
     }
 }
