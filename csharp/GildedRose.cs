@@ -7,21 +7,39 @@ namespace csharp
     {
         private IList<Item> Items;
 
+        readonly Dictionary<string,ItemTypes> _itemLookup = new Dictionary<string, ItemTypes>{
+            {"Aged Brie", ItemTypes.Cheese},
+            {"Backstage passes to a TAFKAL80ETC concert", ItemTypes.Ticket},
+            {"Sulfuras, Hand of Ragnaros", ItemTypes.Legendary},
+            {"Conjured Mana Cake", ItemTypes.Conjurerd},
+            {"+5 Dexterity Vest", ItemTypes.Default},
+            {"Elixir of the Mongoose", ItemTypes.Default }
+        };
+
+        enum ItemTypes
+        {
+            Cheese,
+            Ticket,
+            Legendary,
+            Conjurerd,
+            Default
+        }
+
         public GildedRose(IList<Item> Items)
         {
             this.Items = Items;
         }
 
-        public void UpdateQuality()
+        public void UpdateItems()
         {
             for (int i = 0; i < Items.Count; i++)
             {
-                Items[i] = GetNewSellIn(Items[i]);
-                Items[i] = GetNewQuality(Items[i]);
+                Items[i] = UpdateSellIn(Items[i]);
+                Items[i] = UpdateQuality(Items[i]);
             }
         }
 
-        private Item GetNewSellIn(Item item)
+        private Item UpdateSellIn(Item item)
         {
             if (item.Name != "Sulfuras, Hand of Ragnaros")
             {
@@ -30,22 +48,22 @@ namespace csharp
             return item;
         }
 
-        private Item GetNewQuality(Item item)
+        private Item UpdateQuality(Item item)
         {
-            switch (item.Name)
+            switch (_itemLookup[item.Name])
             {
-                case "Aged Brie":
+                case ItemTypes.Cheese:
                     item.Quality = GetAgedBrieQuality(item);
                     return item;
 
-                case "Backstage passes to a TAFKAL80ETC concert":
+                case ItemTypes.Ticket:
                     item.Quality = GetPassQuality(item);
                     return item;
 
-                case "Sulfuras, Hand of Ragnaros":
+                case ItemTypes.Legendary:
                     return item;
 
-                case "Conjured Mana Cake":
+                case ItemTypes.Conjurerd:
                     item.Quality = GetDefaultQuality(item);
                     break;
             }
