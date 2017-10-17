@@ -1,102 +1,57 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Dynamic;
+using System.Net;
 
 namespace csharp
 {
     public class GildedRose
     {
-        private IList<Item> Items;
+        private readonly IList<Item> _items;
 
-        readonly Dictionary<string,ItemTypes> _itemLookup = new Dictionary<string, ItemTypes>{
-            {"Aged Brie", ItemTypes.Cheese},
-            {"Backstage passes to a TAFKAL80ETC concert", ItemTypes.Ticket},
-            {"Sulfuras, Hand of Ragnaros", ItemTypes.Legendary},
-            {"Conjured Mana Cake", ItemTypes.Conjurerd},
-            {"+5 Dexterity Vest", ItemTypes.Default},
-            {"Elixir of the Mongoose", ItemTypes.Default }
+        readonly Dictionary<string,Type> _itemTypeLookup = new Dictionary<string, Type>{
+            {"Aged Brie", typeof(Cheese)},
+            {"Backstage passes to a TAFKAL80ETC concert", typeof(Ticket)},
+            {"Sulfuras, Hand of Ragnaros", typeof(Legendary)},
+            {"Conjured Mana Cake", typeof(Conjured)},
+            {"+5 Dexterity Vest", typeof(Item)},
+            {"Elixir of the Mongoose", typeof(Item) }
         };
 
-        enum ItemTypes
+        public GildedRose(IList<Item> items)
         {
-            Cheese,
-            Ticket,
-            Legendary,
-            Conjurerd,
-            Default
-        }
-
-        public GildedRose(IList<Item> Items)
-        {
-            this.Items = Items;
+            this._items = items;
         }
 
         public void UpdateItems()
         {
-            for (int i = 0; i < Items.Count; i++)
+            Dictionary<int, dynamic> itemDict = CreateItemDict();
+            for (int i = 0; i < _items.Count; i++)
             {
-                Items[i] = UpdateSellIn(Items[i]);
-                Items[i] = UpdateQuality(Items[i]);
+                itemDict[i].SetSellIn();
+                itemDict[i].SetQuality();
+                _items[i] = itemDict[i];
             }
         }
 
-        private Item UpdateSellIn(Item item)
+        private Dictionary<int, dynamic> CreateItemDict()
         {
-            if (item.Name != "Sulfuras, Hand of Ragnaros")
+            Dictionary<int, dynamic> itemDict = new Dictionary<int, dynamic>();
+            for (int i = 0; i < _items.Count; i++)
             {
-                item.SellIn--;
+                itemDict.Add(i,CreateObject(i));
             }
-            return item;
+            return itemDict;
         }
 
-        private Item UpdateQuality(Item item)
+        private dynamic CreateObject(int i)
         {
-            switch (_itemLookup[item.Name])
+            dynamic curType = _itemTypeLookup[_items[i].Name];
+            if (curType != typeof(Item))
             {
-                case ItemTypes.Cheese:
-                    item.Quality = GetAgedBrieQuality(item);
-                    return item;
-
-                case ItemTypes.Ticket:
-                    item.Quality = GetPassQuality(item);
-                    return item;
-
-                case ItemTypes.Legendary:
-                    return item;
-
-                case ItemTypes.Conjurerd:
-                    item.Quality = GetDefaultQuality(item);
-                    break;
+                return Activator.CreateInstance(curType,_items[i]);
             }
-            item.Quality = GetDefaultQuality(item);
-            return item;
-        }
-
-        private int GetDefaultQuality(Item item)
-        {
-            item.Quality = Math.Max(0, item.Quality - 1);
-            if (item.SellIn < 0)
-                item.Quality = Math.Max(0, item.Quality - 1);
-            return item.Quality;
-        }
-
-        private int GetAgedBrieQuality(Item item)
-        {
-            item.Quality = Math.Min(item.Quality + 1, 50);
-            if (item.SellIn < 0)
-                item.Quality = Math.Min(item.Quality + 1, 50);
-            return item.Quality;
-        }
-
-        private int GetPassQuality(Item pass)
-        {
-            int quality = pass.Quality + 1;
-            if (pass.SellIn < 0)
-                return 0;
-            if (pass.SellIn < 10)
-                quality++;
-            if (pass.SellIn < 5)
-                quality++;
-            return Math.Min(quality, 50);
+            return  _items[i];
         }
     }
 }
