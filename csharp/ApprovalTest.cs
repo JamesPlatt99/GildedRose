@@ -1,10 +1,8 @@
-﻿using ApprovalTests;
-using ApprovalTests.Reporters;
+﻿using ApprovalTests.Reporters;
 using NUnit.Framework;
 using System;
 using System.IO;
 using System.Text;
-using ApprovalUtilities.Utilities;
 
 namespace csharp
 {
@@ -31,8 +29,7 @@ namespace csharp
             }
             file.Close();
             output = output.Replace(Environment.NewLine, "");
-            Assert.AreEqual(valid,output);
-            
+            Assert.AreEqual(valid, output);
         }
     }
 }

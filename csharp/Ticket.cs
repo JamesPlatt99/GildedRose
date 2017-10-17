@@ -2,18 +2,11 @@
 
 namespace csharp
 {
-    public class Ticket : Item
+    public class Ticket : Default
     {
-        public Ticket(Item item)
-        {
-            Name = item.Name;
-            SellIn = item.SellIn;
-            Quality = item.Quality;
-        }
-        public override void SetQuality()
+        protected override void SetQuality()
         {
             Quality++;
-            
             if (SellIn < 10)
             {
                 Quality++;

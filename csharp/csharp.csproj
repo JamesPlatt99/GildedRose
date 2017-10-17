@@ -65,7 +65,7 @@
     <Compile Include="Cheese.cs" />
     <Compile Include="Conjured.cs" />
     <Compile Include="GildedRose.cs" />
-    <Compile Include="IItem.cs" />
+    <Compile Include="Default.cs" />
     <Compile Include="Legendary.cs" />
     <Compile Include="Ticket.cs" />
     <Compile Include="QualityTest.cs" />

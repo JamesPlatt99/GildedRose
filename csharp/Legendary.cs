@@ -1,21 +1,13 @@
-﻿using System;
-
-namespace csharp
+﻿namespace csharp
 {
-    public class Legendary : Item
+    public class Legendary : Default
     {
-        public Legendary(Item item)
-        {
-            Name = item.Name;
-            SellIn = item.SellIn;
-            Quality = item.Quality;
-        }
-        public override void SetQuality()
+        protected override void SetQuality()
         {
             Quality = 80;
         }
 
-        public override void SetSellIn()
+        protected override void SetSellIn()
         {
         }
     }

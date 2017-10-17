@@ -2,15 +2,9 @@
 
 namespace csharp
 {
-    public class Conjured : Item
+    public class Conjured : Default
     {
-        public Conjured(Item item)
-        {
-            Name = item.Name;
-            SellIn = item.SellIn;
-            Quality = item.Quality;
-        }
-        public override void SetQuality()
+        protected override void SetQuality()
         {
             Quality = Math.Max(Quality - 2, 0);
             if (SellIn < 0)
