@@ -10,7 +10,27 @@ namespace csharp
         {
             Console.WriteLine("OMGHAI!");
 
-            IList<BaseItem> items = new List<BaseItem>{
+            IList<BaseItem> items = GetItems();
+
+            GildedRose app = new GildedRose(items);
+
+            for (int i = 0; i < 31; i++)
+            {
+                Console.WriteLine("-------- day " + i + " --------");
+                Console.WriteLine("name, sellIn, quality");
+                foreach (dynamic item in items)
+                {
+                    Console.WriteLine(item.Name + ", " + item.SellIn + ", " + item.Quality);
+                }
+                Console.WriteLine("");
+                app.UpdateQuality();
+            }
+            Console.ReadLine();
+        }
+
+        private static IList<BaseItem> GetItems()
+        {
+            return new List<BaseItem>{
                 new BaseItem {Name = "+5 Dexterity Vest", SellIn = 10, Quality = 20},
                 new Cheese {Name = "Aged Brie", SellIn = 2, Quality = 0},
                 new BaseItem {Name = "Elixir of the Mongoose", SellIn = 5, Quality = 7},
@@ -36,21 +56,6 @@ namespace csharp
                 },
                 new Conjured {Name = "Conjured Mana Cake", SellIn = 3, Quality = 6}
             };
-
-            GildedRose app = new GildedRose(items);
-
-            for (int i = 0; i < 31; i++)
-            {
-                Console.WriteLine("-------- day " + i + " --------");
-                Console.WriteLine("name, sellIn, quality");
-                foreach (dynamic item in items)
-                {
-                    Console.WriteLine(item.Name + ", " + item.SellIn + ", " + item.Quality);
-                }
-                Console.WriteLine("");
-                app.UpdateQuality();
-            }
-            Console.ReadLine();
         }
     }
 }
