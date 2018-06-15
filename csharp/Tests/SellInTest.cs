@@ -1,7 +1,7 @@
 ﻿using NUnit.Framework;
 using System.Collections.Generic;
 
-namespace csharp
+namespace csharp.Tests
 {
     [TestFixture]
     public class SellIn
@@ -9,9 +9,9 @@ namespace csharp
         [Test]
         public void CheckNormalSellIn()
         {
-            IList<dynamic> items = new List<dynamic>
+            IList<BaseItem> items = new List<BaseItem>
             {
-                new Default {Name = "+5 Dexterity Vest", SellIn = 10, Quality = 20},
+                new BaseItem {Name = "+5 Dexterity Vest", SellIn = 10, Quality = 20},
             };
             GildedRose app = new GildedRose(items);
             app.UpdateQuality();
@@ -21,7 +21,7 @@ namespace csharp
         [Test]
         public void CheckLegendarySellIn()
         {
-            IList<dynamic> items = new List<dynamic>
+            IList<BaseItem> items = new List<BaseItem>
             {
                 new Legendary {Name = "Sulfuras, Hand of Ragnaros", SellIn = -1, Quality = 80},
                 new Legendary {Name = "Sulfuras, Hand of Ragnaros", SellIn = 0, Quality = 80},

@@ -1,9 +1,13 @@
 ﻿using System;
 
-namespace csharp
+namespace csharp.Items
 {
-    public class Default : Item
+    public class BaseItem
     {
+        public string Name { get; set; }
+        public int SellIn { get; set; }
+        public int Quality { get; set; }
+
         public void Update()
         {
             SetSellIn();

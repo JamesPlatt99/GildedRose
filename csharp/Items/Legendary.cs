@@ -1,6 +1,6 @@
-﻿namespace csharp
+﻿namespace csharp.Items
 {
-    public class Legendary : Default
+    public class Legendary : BaseItem
     {
         protected override void SetQuality()
         {

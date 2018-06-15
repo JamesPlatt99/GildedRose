@@ -1,12 +1,13 @@
 ﻿using System.Collections.Generic;
+using csharp.Items;
 
 namespace csharp
 {
     public class GildedRose
     {
-        private readonly IList<dynamic> _items;
+        private readonly IList<BaseItem> _items;
 
-        public GildedRose(IList<dynamic> items)
+        public GildedRose(IList<BaseItem> items)
         {
             this._items = items;
         }

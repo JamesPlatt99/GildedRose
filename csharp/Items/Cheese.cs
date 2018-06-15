@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace csharp
+namespace csharp.Items
 {
-    public class Cheese : Default
+    public class Cheese : BaseItem
     {
         protected override void SetQuality()
         {

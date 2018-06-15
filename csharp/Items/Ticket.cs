@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace csharp
+namespace csharp.Items
 {
-    public class Ticket : Default
+    public class Ticket : BaseItem
     {
         protected override void SetQuality()
         {

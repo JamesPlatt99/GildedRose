@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace csharp
+namespace csharp.Items
 {
-    public class Conjured : Default
+    public class Conjured : BaseItem
     {
         protected override void SetQuality()
         {

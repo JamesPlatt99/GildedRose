@@ -4,10 +4,8 @@ using System;
 using System.IO;
 using System.Text;
 
-namespace csharp
+namespace csharp.Tests
 {
-    [TestFixture]
-    [UseReporter(typeof(NUnitReporter))]
     public class ApprovalTest
     {
         [Test]
